@@ -47,7 +47,7 @@ This architecture implements the following Micro-service Design Patterns:
 
 **gRPC (Google Remote Procedure Call):** was chosen as the tool to do the micro-services (_MaliJS_ framework).
 
-**gRPC** is an open-source RPC architecture designed by Google to achieve high-speed communication between micro-services. gRPC uses the **Protobuf** (protocol buffers) messaging format, which is a highly-packed, highly-efficient messaging format for serialising structured data. its also supports multi-language implementations.
+**gRPC** is an open-source RPC architecture designed by Google to achieve high-speed communication between micro-services. gRPC uses the **Protobuf** (protocol buffers) messaging format, which is a highly-packed, highly-efficient messaging format for serialising structured data. its also supports multi-language implementations. Like many RPC systems, gRPC is based around the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages.
 
 **Protocol buffers** was used as the data interchange format between the client (GraphQL API) and the server (gRPC micro-services) for serialising structured data in gRPC. This is the contract between the client and the server.
 
