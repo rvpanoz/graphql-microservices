@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+// Doc: https://developers.google.com/protocol-buffers/docs/proto3
+
+package weatherService;
+
+message WeatherCoord {
+  string lon = 1;
+  string lat = 2;
+}
+
+message WeatherTemp {
+  int32 day = 1;
+  int32 min = 2;
+  int32 max = 3;
+  int32 night = 4;
+  int32 eve = 5;
+  int32 morn = 6;
+}
+
+message WeatherCity {
+  string id = 1;
+  string name = 2;
+  string country = 3;
+  int32 population = 4;
+  int32 timezone = 5;
+  WeatherCoord coord = 6;
+}
+
+message WeatherItem {
+  int32 dt = 1;
+  int32 sunrise = 2;
+  int32 sunset = 3;
+  WeatherTemp temp = 4;
+}
+
+message WeatherData {
+  string cod = 1;
+  WeatherCity city = 2;
+  repeated WeatherItem list = 3;
+}
+
+message getWeatherDataByCityRequest {
+  string city = 1;
+}
+
+service WeatherService {
+  rpc getWeatherDataByCity (getWeatherDataByCityRequest) returns (WeatherData) {}
+}

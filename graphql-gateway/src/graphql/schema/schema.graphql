@@ -1,0 +1,45 @@
+scalar DateTime
+
+type WeatherCoord {
+  lon: String
+  lat: String
+}
+
+type WeatherTemp {
+  day: Int
+  min: Int
+  max: Int
+  night: Int
+  eve: Int
+  morn: Int
+}
+
+type WeatherCity {
+  id: String
+  name: String
+  country: String
+  population: Int
+  timezone: Int
+  coord: WeatherCoord
+}
+
+type WeatherItem {
+  dt: Int
+  sunrise: Int
+  sunset: Int
+  temp: WeatherTemp
+}
+
+type WeatherData {
+  cod: String
+  city: WeatherCity
+  list: [WeatherItem]
+}
+
+type Query {
+  getWeatherDataByCity(city: String): WeatherData
+}
+
+schema {
+  query: Query
+}

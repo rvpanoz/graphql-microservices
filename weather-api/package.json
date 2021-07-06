@@ -1,0 +1,25 @@
+{
+  "name": "weather-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/main.ts",
+    "client": "ts-node src/tools/cmd.ts",
+    "dev": "npx nodemon",
+    "test": "jest --forceExit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.3.4",
+    "@grpc/proto-loader": "^0.6.4",
+    "mali": "^0.44.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  }
+}
