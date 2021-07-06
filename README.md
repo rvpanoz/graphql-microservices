@@ -37,7 +37,7 @@ In general
 
 - The **GraphQL server** is in front of the client as our unique **entry point**. Its role is mainly to validate input data (required / optional fields, type, …) and filter output data. It also acts as a _client_ to the gRPC micro-service.
 
-- A **gRPC server**, to perform all functional operations. Here to get weather data
+- A **gRPC server**, to perform all functional operations.
 
 ![Gateway and microservices](graphql-grpc.jpg "Architecture")
 
