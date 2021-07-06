@@ -76,6 +76,8 @@ service  WeatherService {
 }
 ```
 
+Protocol buffer data is structured as messages, where each message is a small logical record of information containing a series of name-value pairs called fields.
+
 2. Subdomain Decomposition
 
 Define services that responds to different business domains.
@@ -95,13 +97,13 @@ In order clients of a Microservices-based application to access the individual s
 Pros
 
 - Lightweight messages. Depending on the type of call, gRPC-specific messages can be up to 30 percent smaller in size than JSON messages.
-- High performance. By different evaluations, gRPC is 5, 7, and even 8 times faster than REST+JSON communication.
+- High performance. By different evaluations, gRPC is faster than REST+JSON communication.
 - More connection options. gRPC provides support for data streaming with event-driven architectures: server-side streaming, client-side streaming, and bidirectional streaming.
 - Real-time communication services
 
 Cons
 
-- learning curve
+- Learning curve
 - Not human-readable format: To analyze payloads, perform debugging, and write manual requests, we must use extra tools like **gRPC command line tool** because data is compressing to a binary format
 
 ## Apollo Federation
