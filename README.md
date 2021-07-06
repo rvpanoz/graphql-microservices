@@ -2,7 +2,11 @@
 
 The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into a datastore. The document also provides information of how we can split the API into micro-services using GraphQL as a gateway.
 
-## GraphQL schema stitching
+- Schema Stitching
+- gRPC
+- Apollo Federation
+
+## Schema stitching
 
 Schema stitching is the process of creating a single GraphQL schema from multiple underlying GraphQL APIs. Given two self-contained subschemas, a single **stitched** schema can be built that delegates (or, proxies) relevant portions of a request to each subservice.
 
