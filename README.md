@@ -126,6 +126,8 @@ The Gateway reads the federated Schemas, and based on the information they provi
 With Stitching, all the work is done in the external service, so the backend services do not have to know about it.
 With Federation, all the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
 
+Unlike other distributed GraphQL architectures (such as schema stitching), Apollo Federation uses a declarative programming model that enables each subgraph to implement only the part of your composed supergraph that it's responsible for.
+
 A previous document on federation by Shane
 
 https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
