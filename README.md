@@ -1,4 +1,4 @@
-# Causal data GraphQL API with micro-services or not
+# Causal data GraphQL API PoC. Microservices or DataSources?
 
 The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into a datastore. The document also provides information of how we can split the API into micro-services using GraphQL as a gateway.
 
