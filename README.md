@@ -107,8 +107,9 @@ Pros
 
 Cons
 
-- Learning curve
-- Not human-readable format: To analyze payloads, perform debugging, and write manual requests, we must use extra tools like **gRPC command line tool** because data is compressing to a binary format
+- Both client and server need to support the same Protocol Buffers specification.
+- Learning curve.
+- Not human-readable format: To analyze payloads, perform debugging, and write manual requests, we must use extra tools like **gRPC command line tool** because data is compressing to a binary format.
 
 ## Apollo Federation
 
