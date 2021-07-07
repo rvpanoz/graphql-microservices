@@ -1,8 +1,12 @@
-# Causal data GraphQL API with micro-services
+# Causal data GraphQL API PoC. Microservices or DataSources?
 
 The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into a datastore. The document also provides information of how we can split the API into micro-services using GraphQL as a gateway.
 
-## GraphQL schema stitching
+- Schema Stitching
+- gRPC
+- Apollo Federation
+
+## Schema stitching
 
 Schema stitching is the process of creating a single GraphQL schema from multiple underlying GraphQL APIs. Given two self-contained subschemas, a single **stitched** schema can be built that delegates (or, proxies) relevant portions of a request to each subservice.
 
@@ -37,7 +41,7 @@ In general
 
 - The **GraphQL server** is in front of the client as our unique **entry point**. Its role is mainly to validate input data (required / optional fields, type, …) and filter output data. It also acts as a _client_ to the gRPC micro-service.
 
-- A **gRPC server**, to perform all functional operations. Here to get weather data
+- A **gRPC server**, to perform all functional operations.
 
 ![Gateway and microservices](graphql-grpc.jpg "Architecture")
 
@@ -47,7 +51,7 @@ This architecture implements the following Micro-service Design Patterns:
 
 **gRPC (Google Remote Procedure Call):** was chosen as the tool to do the micro-services (_MaliJS_ framework).
 
-**gRPC** is an open-source RPC architecture designed by Google to achieve high-speed communication between micro-services. gRPC uses the **Protobuf** (protocol buffers) messaging format, which is a highly-packed, highly-efficient messaging format for serialising structured data. its also supports multi-language implementations.
+**gRPC** is an open-source RPC architecture designed by Google to achieve high-speed communication between micro-services. gRPC uses the **Protobuf** (protocol buffers) messaging format, which is a highly-packed, highly-efficient messaging format for serialising structured data. its also supports multi-language implementations. Like many RPC systems, gRPC is based around the idea of defining a service, specifying the methods that can be called remotely with their parameters and return types. By default, gRPC uses protocol buffers as the Interface Definition Language (IDL) for describing both the service interface and the structure of the payload messages.
 
 **Protocol buffers** was used as the data interchange format between the client (GraphQL API) and the server (gRPC micro-services) for serialising structured data in gRPC. This is the contract between the client and the server.
 
@@ -76,6 +80,8 @@ service  WeatherService {
 }
 ```
 
+Protocol buffer data is structured as messages, where each message is a small logical record of information containing a series of name-value pairs called fields.
+
 2. Subdomain Decomposition
 
 Define services that responds to different business domains.
@@ -95,14 +101,16 @@ In order clients of a Microservices-based application to access the individual s
 Pros
 
 - Lightweight messages. Depending on the type of call, gRPC-specific messages can be up to 30 percent smaller in size than JSON messages.
-- High performance. By different evaluations, gRPC is 5, 7, and even 8 times faster than REST+JSON communication.
+- High performance. By different evaluations, gRPC is faster than REST+JSON communication.
 - More connection options. gRPC provides support for data streaming with event-driven architectures: server-side streaming, client-side streaming, and bidirectional streaming.
 - Real-time communication services
 
 Cons
 
-- learning curve
-- Not human-readable format: To analyze payloads, perform debugging, and write manual requests, we must use extra tools like **gRPC command line tool** because data is compressing to a binary format
+- Both client and server need to support the same Protocol Buffers specification.
+- Updates to the .proto file need to be carefully coordinated. (related to 1)
+- Learning curve.
+- Not human-readable format: To analyze payloads, perform debugging, and write manual requests, we must use extra tools like **gRPC command line tool** because data is compressing to a binary format.
 
 ## Apollo Federation
 
@@ -120,3 +128,11 @@ With Federation, all the backend services have to be aware that they are part of
 A previous document on federation by Shane
 
 https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
+
+## Apollo DataSources (alternative to microservices)
+
+Data sources are classes that Apollo Server can use to encapsulate fetching data from a particular source, such as a database or a REST API. These classes help handle caching, deduplication, and errors while resolving operations.
+
+The server can use any number of different data sources.
+
+![Apollo-RESTDataSources](apollo-restDataSources.png "RESTDataSources")
