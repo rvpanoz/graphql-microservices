@@ -128,3 +128,11 @@ With Federation, all the backend services have to be aware that they are part of
 A previous document on federation by Shane
 
 https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
+
+## Apollo DataSources (alternative to microservices)
+
+Data sources are classes that Apollo Server can use to encapsulate fetching data from a particular source, such as a database or a REST API. These classes help handle caching, deduplication, and errors while resolving operations.
+
+The server can use any number of different data sources.
+
+![Apollo-RESTDataSources](apollo-restDataSources.png "RESTDataSources")
