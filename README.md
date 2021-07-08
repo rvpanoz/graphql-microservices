@@ -21,14 +21,15 @@ Each microservice can have its own GraphQL endpoint, where one GraphQL API gatew
 
 Pros
 
-- Query against only one schema, so we don’t have to track which queries are associated with which API
-- Do one request to get the information we need
+- Query against only one schema, No need to track which queries are associated with which API.
+- Do one request to get all the information.
 - Adding links between types
 
 Cons
 
-- It does not automatically update schema when internal APIs are updated, so you need to re-launch gateway server in some way to update schema. Could be done with deployment trigger though.
-- It doesn't have namespaces, so you need to solve name conflicts manually at gateway level if you have them.
+- GraphQL stitching is being replaced by GraphQL federation which is considered simpler to maintain.
+- It does not automatically update schema when internal APIs are updated. Need to re-launch gateway server in some way to update schema.
+- It doesn't have namespaces, Need to solve name conflicts manually at gateway level if you have them.
 - It swallows detailed error info (such as stacktraces) from internal API.
 - It does not currently support file uploads. You need to use some workaround to be able to upload a file to internal services.
 
@@ -102,8 +103,8 @@ In order clients of a Microservices-based application to access the individual s
 Pros
 
 - Lightweight messages. Depending on the type of call, gRPC-specific messages can be up to 30 percent smaller in size than JSON messages.
-- High performance. By different evaluations, gRPC is faster than REST+JSON communication.
-- More connection options. gRPC provides support for data streaming with event-driven architectures: server-side streaming, client-side streaming, and bidirectional streaming.
+- High performance. By different evaluations, gRPC is faster than REST+JSON communication. This is because its binary transport protocol.
+- More connection options. gRPC provides support for server-side streaming, client-side streaming, and bidirectional streaming.
 - Real-time communication services
 
 Cons
