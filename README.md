@@ -23,6 +23,7 @@ Each microservice can have its own GraphQL endpoint, where one GraphQL API gatew
 
 Pros
 
+- Sub-service schemas are independently valid
 - Query against only one schema, No need to track which queries are associated with which API.
 - Do one request to get all the information.
 - All the work is done in the external service, so the backend services do not have to know about it.
@@ -127,9 +128,8 @@ The federation package prepares each sub-service schema while the gateway packag
 
 ![Gateway and Apollo Federation](apollo-federation.png "Apollo Federation")
 
-The Gateway reads the federated Schemas, and based on the information they provide, it stitches it all together, without having to write any code in the stitching layer. But each service should supports federation during implementation.
+The Gateway reads the federated Schemas, and based on the information they provide, it stitches it all together, without having to write any code in the stitching layer. But each service should supports federation during implementation while __federation services__ are aware of each other’s data while the gateway is a generic agent that combines them. The gateway configures itself by reading SDLs from each service, and may be reloaded on the fly with new SDLs.
 
-Unlike other distributed GraphQL architectures (such as schema stitching), Apollo Federation uses a declarative programming model that enables each subgraph to implement only the part of your composed supergraph that it's responsible for.
 
 Pros
 
