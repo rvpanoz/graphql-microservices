@@ -129,6 +129,13 @@ With Federation, all the backend services have to be aware that they are part of
 
 Unlike other distributed GraphQL architectures (such as schema stitching), Apollo Federation uses a declarative programming model that enables each subgraph to implement only the part of your composed supergraph that it's responsible for.
 
+Pros
+
+- GraphQL federation can be enabled through a rather simple configuration.
+- GraphQL federation has replaced GraphQL stitching the suggested way to combine multiple GraphQL services into a single API since
+it requires no knowledge since any dependencies between services are defined in the services themselves rather than a stitching
+service which can become difficult to read / maintain as it grows.
+
 A previous document on federation by Shane
 
 https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
