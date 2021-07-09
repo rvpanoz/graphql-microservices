@@ -140,7 +140,8 @@ service which can become difficult to read / maintain as it grows.
 Cons
 
 - All the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
-
+- By design, Federation services are not autonomous; they contain fields that cannot be resolved outside of the combined gateway context.
+- 
 ### Links
 A previous document on federation by Shane
 ADR: https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
