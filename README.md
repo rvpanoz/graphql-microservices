@@ -138,6 +138,7 @@ Pros
 it requires no knowledge since any dependencies between services are defined in the services themselves rather than a stitching
 service which can become difficult to read / maintain as it grows.
 - Federation encourages schemas to be organized by concern.
+- The Apollo ecosystem of hosted tools
 
 Cons
 
