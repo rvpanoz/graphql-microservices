@@ -23,6 +23,7 @@ Pros
 
 - Query against only one schema, No need to track which queries are associated with which API.
 - Do one request to get all the information.
+- All the work is done in the external service, so the backend services do not have to know about it.
 - Adding links between types
 
 Cons
@@ -120,12 +121,11 @@ Apollo Federation is an approach for composing multiple GraphQL services into on
 
 Federation leans heavily into a declarative SDL (schema definition language) for its operations. Unlike other distributed GraphQL architectures (such as schema stitching), Apollo Federation uses a declarative programming model that makes it easy for each implementing service to implement only the part of the data graph that it should be responsible for.
 
+The federation package prepares each sub-service schema while the gateway package hooks them all together.
+
 ![Gateway and Apollo Federation](apollo-federation.png "Apollo Federation")
 
 The Gateway reads the federated Schemas, and based on the information they provide, it stitches it all together, without having to write any code in the stitching layer. But each service should supports federation during implementation.
-
-With Stitching, all the work is done in the external service, so the backend services do not have to know about it.
-With Federation, all the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
 
 Unlike other distributed GraphQL architectures (such as schema stitching), Apollo Federation uses a declarative programming model that enables each subgraph to implement only the part of your composed supergraph that it's responsible for.
 
@@ -136,6 +136,10 @@ Pros
 it requires no knowledge since any dependencies between services are defined in the services themselves rather than a stitching
 service which can become difficult to read / maintain as it grows.
 - Federation encourages schemas to be organized by concern.
+
+Cons
+
+- All the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
 
 ### Links
 A previous document on federation by Shane
