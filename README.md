@@ -11,6 +11,8 @@ The goal of this document is to provide a quick overview of methods of how we co
 
 Schema stitching is the process of creating a single GraphQL schema from multiple underlying GraphQL APIs. Given two self-contained subschemas, a single **stitched** schema can be built that delegates (or, proxies) relevant portions of a request to each subservice.
 
+It is a strategy for building a distributed graph, and it starts with self-contained sub-service schemas composed using plain GraphQL syntax.
+
 ![Gateway and Schema stitching](graphql-schema-stitching.png "Schema stitching")
 
 The end goal of this process is to have a very specific workflow – the client makes a request to the API, which is then sent to a proxy layer of translation. At this layer, the request is split to several different APIs, with each responding to the request with the portion of data they’re responsible for. Next, these responses are combined together, again in the proxy layer. This combined response is then sent to the client through the Master API output.
