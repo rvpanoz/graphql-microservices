@@ -16,6 +16,8 @@ The end goal of this process is to have a very specific workflow – the client 
 
 Schema stitching makes it possible to create one schema out of multiple schemas. Using a microservices architecture at the backend where each microservice handles the business logic and data for a specific domain. In this case, each microservice can define its **own GraphQL schema**, after which you'd use schema stitching to weave them into one that is accessed by the client.
 
+![Schema stitching](stitching.png "Stitching")
+
 Each microservice can have its own GraphQL endpoint, where one GraphQL API gateway consolidates all schemas into one global schema.
 
 Pros
@@ -121,6 +123,8 @@ Federation leans heavily into a declarative SDL (schema definition language) for
 ![Gateway and Apollo Federation](apollo-federation.png "Apollo Federation")
 
 The Gateway reads the federated Schemas, and based on the information they provide, it stitches it all together, without having to write any code in the stitching layer. But each service should supports federation during implementation.
+
+![Gateway and Apollo Federation](federation.png "Federation")
 
 With Stitching, all the work is done in the external service, so the backend services do not have to know about it.
 With Federation, all the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
