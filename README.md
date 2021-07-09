@@ -135,10 +135,11 @@ Pros
 - GraphQL federation has replaced GraphQL stitching the suggested way to combine multiple GraphQL services into a single API since
 it requires no knowledge since any dependencies between services are defined in the services themselves rather than a stitching
 service which can become difficult to read / maintain as it grows.
+- Federation encourages schemas to be organized by concern.
 
+### Links
 A previous document on federation by Shane
-
-https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
+ADR: https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
 
 ## Apollo DataSources (alternative to microservices)
 
