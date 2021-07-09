@@ -155,3 +155,14 @@ Data sources are classes that Apollo Server can use to encapsulate fetching data
 The server can use any number of different data sources.
 
 ![Apollo-RESTDataSources](apollo-restDataSources.png "RESTDataSources")
+
+Pros
+
+- Easy to adapt. No extra layer is needed.
+- Caching support
+
+Cons
+
+- Implementation of the classes per type (RESTDataSource, SQLDataSource)
+- Non distributed schema
+- Scalling (as the classes will be part of the main codebase)
