@@ -39,17 +39,17 @@ Cons
 
 ## gRPC micro-services
 
-RPC is a form of inter-process communication that allows procedures to be invoked across machines and networks. One RPC framework gaining traction is Google’s gRPC.
+RPC is a form of inter-process communication that allows procedures to be invoked across machines and networks. gRPC is a RPC framework from Google.
 
-The GraphQL API acts as a gateway/proxy for the different micro-services it exposes. The resolvers of the GraphQL API make calls to the gRPC micro-services through client-server communication. The services and the data interchange are defined using **Protocol Buffers**. The gRPC micro-services handle and fulfil the requests whether they are database operations or any other internal or external calls.
+The GraphQL API acts as a gateway/proxy for the different micro-services it exposes. The __resolvers__ of the GraphQL API make calls to the __gRPC micro-services__ through client-server communication. The services and the data interchange are defined using **Protocol Buffers**. The gRPC micro-services handle and fulfil the requests whether they are database operations or any other internal or external calls.
+
+![Gateway and microservices](graphql-grpc.jpg "Architecture")
 
 In general
 
 - The **GraphQL server** is in front of the client as our unique **entry point**. Its role is mainly to validate input data (required / optional fields, type, …) and filter output data. It also acts as a _client_ to the gRPC micro-service.
 
 - A **gRPC server**, to perform all functional operations.
-
-![Gateway and microservices](graphql-grpc.jpg "Architecture")
 
 This architecture implements the following Micro-service Design Patterns:
 
@@ -106,10 +106,10 @@ In order clients of a Microservices-based application to access the individual s
 
 Pros
 
-- Lightweight messages. Depending on the type of call, gRPC-specific messages can be up to 30 percent smaller in size than JSON messages.
-- High performance. By different evaluations, gRPC is faster than REST+JSON communication. This is because its binary transport protocol.
+- Ideal for data exchange
+- Lightweight messages. Depending on the type of call, gRPC-specific messages are smaller in size than JSON messages. (30%)
+- High performance. By different evaluations, gRPC is faster than REST+JSON communication. This is because its binary transport protocol compared with REST+JSON which is text based.
 - More connection options. gRPC provides support for server-side streaming, client-side streaming, and bidirectional streaming.
-- Real-time communication services
 
 Cons
 
