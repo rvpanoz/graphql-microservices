@@ -69,7 +69,7 @@ package  weatherService;
 message  WeatherData {
 	string  cod = 1;
 	WeatherCity  city = 2;
-	repeated  WeatherItem  list = 3;
+	...otherFields;
 }
 
 message  getWeatherDataByCityRequest {
@@ -78,7 +78,7 @@ message  getWeatherDataByCityRequest {
 
 service  WeatherService {
 	rpc  getWeatherDataByCity (getWeatherDataByCityRequest) returns (WeatherData) {}
-	rpc transformWeatherData (transformWeatherRequest) returns (TransformedWeatherData)
+	rpc transformWeatherData (transformWeatherRequest) returns (WeatherData)
 }
 ```
 
