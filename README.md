@@ -1,6 +1,8 @@
 # Causal data GraphQL API Poc
 
-The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into a datastore. The document also provides information of how we can split the API into micro-services using GraphQL as a gateway or use Apollo's RESTDataSources.
+The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into the __causal-data__ database.
+
+The document provides information of how we can split the API into micro-services using GraphQL as a gateway or use Apollo's RESTDataSources.
 
 - Schema Stitching
 - gRPC
@@ -174,4 +176,4 @@ Cons
 
 - Implementation of the classes per type (RESTDataSource, SQLDataSource)
 - Non distributed schema
-- Scalling (as the classes will be part of the main codebase)
+- Scalling (as the implementation will be part of the main codebase)
