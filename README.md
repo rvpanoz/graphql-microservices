@@ -1,4 +1,4 @@
-# Causal data GraphQL API Poc
+# Causal data GraphQL API Tech and Architecture
 
 The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into the __causal-data__ database.
 
