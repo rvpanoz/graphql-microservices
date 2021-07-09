@@ -1,14 +1,17 @@
-# Causal data GraphQL API PoC. Microservices or DataSources?
+# Causal data GraphQL API Poc
 
-The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into a datastore. The document also provides information of how we can split the API into micro-services using GraphQL as a gateway.
+The goal of this document is to provide a quick overview of methods of how we could capture several types of events such as Sales events, Weather and Holidays events from 3rd party datasources and store them into a datastore. The document also provides information of how we can split the API into micro-services using GraphQL as a gateway or use Apollo's RESTDataSources.
 
 - Schema Stitching
 - gRPC
 - Apollo Federation
+- Apollo RESTDataSources
 
 ## Schema stitching
 
 Schema stitching is the process of creating a single GraphQL schema from multiple underlying GraphQL APIs. Given two self-contained subschemas, a single **stitched** schema can be built that delegates (or, proxies) relevant portions of a request to each subservice.
+
+It is a strategy for building a distributed graph, and it starts with self-contained sub-service schemas composed using plain GraphQL syntax.
 
 ![Gateway and Schema stitching](graphql-schema-stitching.png "Schema stitching")
 
@@ -22,30 +25,33 @@ Each microservice can have its own GraphQL endpoint, where one GraphQL API gatew
 
 Pros
 
-- Query against only one schema, so we don’t have to track which queries are associated with which API
-- Do one request to get the information we need
+- Sub-service schemas are independently valid
+- Query against only one schema, No need to track which queries are associated with which API.
+- Do one request to get all the information.
+- All the work is done in the external service, so the backend services do not have to know about it.
 - Adding links between types
 
 Cons
 
-- It does not automatically update schema when internal APIs are updated, so you need to re-launch gateway server in some way to update schema. Could be done with deployment trigger though.
-- It doesn't have namespaces, so you need to solve name conflicts manually at gateway level if you have them.
+- GraphQL stitching is being replaced by GraphQL federation which is considered simpler to maintain.
+- It does not automatically update schema when internal APIs are updated. Need to re-launch gateway server in some way to update schema.
+- It doesn't have namespaces, Need to solve name conflicts manually at gateway level if you have them.
 - It swallows detailed error info (such as stacktraces) from internal API.
 - It does not currently support file uploads. You need to use some workaround to be able to upload a file to internal services.
 
 ## gRPC micro-services
 
-RPC is a form of inter-process communication that allows procedures to be invoked across machines and networks. One RPC framework gaining traction is Google’s gRPC.
+RPC is a form of inter-process communication that allows procedures to be invoked across machines and networks. gRPC is a RPC framework from Google.
 
-The GraphQL API acts as a gateway/proxy for the different micro-services it exposes. The resolvers of the GraphQL API make calls to the gRPC micro-services through client-server communication. The services and the data interchange are defined using **Protocol Buffers**. The gRPC micro-services handle and fulfil the requests whether they are database operations or any other internal or external calls.
+The GraphQL API acts as a gateway/proxy for the different micro-services it exposes. The **resolvers** of the GraphQL API make calls to the **gRPC micro-services** through client-server communication. The services and the data interchange are defined using **Protocol Buffers**. The gRPC micro-services handle and fulfil the requests whether they are database operations or any other internal or external calls.
+
+![Gateway and microservices](graphql-grpc.jpg "Architecture")
 
 In general
 
 - The **GraphQL server** is in front of the client as our unique **entry point**. Its role is mainly to validate input data (required / optional fields, type, …) and filter output data. It also acts as a _client_ to the gRPC micro-service.
 
 - A **gRPC server**, to perform all functional operations.
-
-![Gateway and microservices](graphql-grpc.jpg "Architecture")
 
 This architecture implements the following Micro-service Design Patterns:
 
@@ -69,7 +75,7 @@ package  weatherService;
 message  WeatherData {
 	string  cod = 1;
 	WeatherCity  city = 2;
-	repeated  WeatherItem  list = 3;
+	...otherFields;
 }
 
 message  getWeatherDataByCityRequest {
@@ -78,7 +84,7 @@ message  getWeatherDataByCityRequest {
 
 service  WeatherService {
 	rpc  getWeatherDataByCity (getWeatherDataByCityRequest) returns (WeatherData) {}
-	rpc transformWeatherData (transformWeatherRequest) returns (TransformedWeatherData)
+	rpc transformWeatherData (transformWeatherRequest) returns (WeatherData)
 }
 ```
 
@@ -102,10 +108,10 @@ In order clients of a Microservices-based application to access the individual s
 
 Pros
 
-- Lightweight messages. Depending on the type of call, gRPC-specific messages can be up to 30 percent smaller in size than JSON messages.
-- High performance. By different evaluations, gRPC is faster than REST+JSON communication.
-- More connection options. gRPC provides support for data streaming with event-driven architectures: server-side streaming, client-side streaming, and bidirectional streaming.
-- Real-time communication services
+- Ideal for data exchange
+- Lightweight messages. Depending on the type of call, gRPC-specific messages are smaller in size than JSON messages. (30%)
+- High performance. By different evaluations, gRPC is faster than REST+JSON communication. This is because its binary transport protocol compared with REST+JSON which is text based.
+- More connection options. gRPC provides support for server-side streaming, client-side streaming, and bidirectional streaming.
 
 Cons
 
@@ -120,18 +126,36 @@ Apollo Federation is an approach for composing multiple GraphQL services into on
 
 Federation leans heavily into a declarative SDL (schema definition language) for its operations. Unlike other distributed GraphQL architectures (such as schema stitching), Apollo Federation uses a declarative programming model that makes it easy for each implementing service to implement only the part of the data graph that it should be responsible for.
 
+The federation package prepares each sub-service schema while the gateway package hooks them all together.
+
 ![Gateway and Apollo Federation](apollo-federation.png "Apollo Federation")
 
-The Gateway reads the federated Schemas, and based on the information they provide, it stitches it all together, without having to write any code in the stitching layer. But each service should supports federation during implementation.
+The Gateway reads the federated Schemas, and based on the information they provide, it stitches it all together, without having to write any code in the stitching layer. But each service should supports federation during implementation while **federation services** are aware of each other’s data while the gateway is a generic agent that combines them. The gateway configures itself by reading SDLs from each service, and may be reloaded on the fly with new SDLs.
 
 ![Gateway and Apollo Federation](federation.png "Federation")
 
 With Stitching, all the work is done in the external service, so the backend services do not have to know about it.
 With Federation, all the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
 
-A previous document on federation by Shane
+Pros
 
-https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
+- GraphQL federation can be enabled through a rather simple configuration.
+- GraphQL federation has replaced GraphQL stitching the suggested way to combine multiple GraphQL services into a single API since
+  it requires no knowledge since any dependencies between services are defined in the services themselves rather than a stitching
+  service which can become difficult to read / maintain as it grows.
+- Federation encourages schemas to be organized by concern.
+- The Apollo ecosystem of hosted tools
+
+Cons
+
+- All the backend services have to be aware that they are part of something bigger in order to participate in that bigger picture.
+- By design, Federation services are not autonomous; they contain fields that cannot be resolved outside of the combined gateway context.
+-
+
+### Links
+
+A previous document on federation by Shane
+ADR: https://gitlab.td.gfk.com/ecosystem/client-platform-gateway#
 
 ## Apollo DataSources (alternative to microservices)
 
@@ -140,3 +164,14 @@ Data sources are classes that Apollo Server can use to encapsulate fetching data
 The server can use any number of different data sources.
 
 ![Apollo-RESTDataSources](apollo-restDataSources.png "RESTDataSources")
+
+Pros
+
+- Easy to adapt. No extra layer is needed.
+- Caching support
+
+Cons
+
+- Implementation of the classes per type (RESTDataSource, SQLDataSource)
+- Non distributed schema
+- Scalling (as the classes will be part of the main codebase)
